@@ -1,12 +1,5 @@
-clear all;
-close all;
-dsize = 1000;
-n = 3;
-data = 100*randn(dsize,n);
-data(1:500,:) = data(1:500,:) + 200;
-data(500:600,:) = data(500:600,:) + 300;
-L_min = 40;
-kol = 3;
+function [group, c] = dbscan(data, L_min, kol) 
+dsize = size(data,1);
 L = zeros(dsize, dsize);
 rez = zeros(dsize,1);
 marked = zeros(dsize,1);
@@ -52,8 +45,6 @@ for i = 1:dsize
        continue
    end
 end
-for i = 1:c-1
-    plot3(data(group==i,1),data(group==i,2),data(group==i,3),'.');
-    hold on;
+c = c - 1;
 end
-plot3(data(group==-1,1),data(group==-1,2),data(group==-1,3),'o');
+

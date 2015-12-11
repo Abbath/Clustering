@@ -1,18 +1,8 @@
-clear all;
+function [cl, N] = isodata(data, K, teta_n, teta_c, teta_s, Lmax, l)
 %one
-K = 15;
-teta_n = 1;
-teta_c = 20;
-l = 200;
 L = l;
-Lmax = 1;
-teta_s = 1;
-dsize = 1000;
-n = 3;
+[dsize, n] = size(data);
 N = 1;
-points = 100*randn(dsize,n);
-points(1:333,:) = points(1:333,:) + 300;
-points(334:666,:) = points(334:666,:) - 300;
 cl = zeros(dsize,1);
 centroids = zeros(N,n);
 number = -2.*ones(N,1);
@@ -21,7 +11,7 @@ while l
     dists = zeros(1,N); 
     for i = 1:dsize
         for j = 1:N
-            dists(j) = sqrt(sum((centroids(j,:)-points(i,:)).^2));
+            dists(j) = sqrt(sum((centroids(j,:)-data(i,:)).^2));
         end
         cl(i) = find(dists == min(dists));
     end
@@ -41,12 +31,12 @@ while l
     end
     %four
     for i = 1:N
-        centroids(i,:) = mean(points(cl==i,:));
+        centroids(i,:) = mean(data(cl==i,:));
     end
     %five
     d = zeros(N,1);
     for i = 1:N
-        pts = points(cl==i,:);
+        pts = data(cl==i,:);
         for j = 1:size(pts,1)
             d(i) = d(i) + sqrt(sum((pts(j,:)-centroids(i,:)).^2)); 
         end
@@ -57,9 +47,9 @@ while l
     %six
     D = 0;
     for i = 1:N
-        D = D + d(i) * size(points(cl==i,:),1); 
+        D = D + d(i) * size(data(cl==i,:),1); 
     end
-    D = D / size(points,1);
+    D = D / size(data,1);
     %seven
     if ~l 
         teta_c = 0;
@@ -67,7 +57,7 @@ while l
         %eight
         sigma = zeros(N,n);
         for i = 1:N
-            pts = points(cl==i,:);
+            pts = data(cl==i,:);
             for j = 1:size(pts,1)
                 sigma(i,:) = sigma(i,:) + (centroids(i,:) - pts(j,:)).^2; 
             end
@@ -88,7 +78,7 @@ while l
         i = 1;
         msl = N;
         while i <= msl
-            if max_sigma(i,2) > teta_s && ((d(i) > D && size(points(cl==i+add,:),1) > 2*(teta_n+1)) || N <= K/2 )  
+            if max_sigma(i,2) > teta_s && ((d(i) > D && size(data(cl==i+add,:),1) > 2*(teta_n+1)) || N <= K/2 )  
                 centroids(i+add,max_sigma(i,1)) = centroids(i+add,max_sigma(i,1)) + 0.5*max_sigma(i,2);
                 t = centroids(i+add,:);
                 t(max_sigma(i,1)) = t(max_sigma(i,1)) - 0.5*max_sigma(i,2);
@@ -122,7 +112,6 @@ while l
         distances = distances(order,:);
     end
     %thirteen
-    cl1 = zeros(1,n);
     empty = zeros(1,n);
     l = l - 1;
     if ~isempty(distances)
@@ -130,11 +119,11 @@ while l
         if Lmax < le 
             le = Lmax;
         end
-        for i = 1:Lmax
+        for i = 1:le
             fst = distances(i,1);
             snd = distances(i,2);
-            flen = size(points(cl==fst,:),1);
-            slen = size(points(cl==snd,:),1);
+            flen = size(data(cl==fst,:),1);
+            slen = size(data(cl==snd,:),1);
             cl1 = (centroids(fst,:).*flen+centroids(fst,:).*snd)./(flen+slen);
             if number(snd) ~= -1 && number(fst) ~= -2
                 centroids(snd,:) = cl1;
@@ -165,8 +154,4 @@ while l
         break
     end
 end
-for i = 1:N
-   pts = points(cl==i,:);
-   plot3(pts(:,1), pts(:,2), pts(:,3), '.'); 
-   hold on;
 end

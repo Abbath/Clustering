@@ -1,4 +1,5 @@
 function [cl] = kmeans(data, N, eps)
+tic;
 [dsize,n] = size(data);
 centroids = rand(N,n);
 cl = zeros(dsize,1);
@@ -16,5 +17,6 @@ for i = 1:N
     centroids(i,:) = mean(data(cl==i,:));
 end
 end
+toc;
 end
 

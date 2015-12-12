@@ -1,4 +1,5 @@
 function [cl, N] = isodata(data, K, teta_n, teta_c, teta_s, Lmax, l)
+tic;
 %one
 L = l;
 [dsize, n] = size(data);
@@ -154,4 +155,5 @@ while l
         break
     end
 end
+toc;
 end

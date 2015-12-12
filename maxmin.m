@@ -1,4 +1,5 @@
 function [ group, c ] = maxmin( data )
+tic;
 data1 = data;
 cl(1,:) = data(1,:);
 data = data(2:end,:);
@@ -47,5 +48,6 @@ for i = 1:dsize
     end
     group(i) = find(dists==min(dists));
 end
+toc;
 end
 

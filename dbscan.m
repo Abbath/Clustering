@@ -1,4 +1,5 @@
 function [group, c] = dbscan(data, L_min, kol) 
+tic;
 dsize = size(data,1);
 L = zeros(dsize, dsize);
 rez = zeros(dsize,1);
@@ -46,5 +47,6 @@ for i = 1:dsize
    end
 end
 c = c - 1;
+toc;
 end
 

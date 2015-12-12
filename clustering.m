@@ -10,12 +10,7 @@ for i = 1:c
 end
 plot3(data(group==-1,1),data(group==-1,2),data(group==-1,3),'o');
 
-dsize = 1000;
-n = 5;
 N = 3;
-data = 100*randn(dsize,n);
-data(1:333,:) = data(1:333,:) + 300;
-data(334:666,:) = data(334:666,:) - 300;
 [cl] = kmeans(data, N, 1e-5);
 figure;
 for i = 1:N
@@ -30,11 +25,6 @@ l = 200;
 L = l;
 Lmax = 1;
 teta_s = 1;
-dsize = 1000;
-n = 3;
-data = 100*randn(dsize,n);
-data(1:333,:) = data(1:333,:) + 300;
-data(334:666,:) = data(334:666,:) - 300;
 [cl, N] = isodata(data, K, teta_n, teta_c, teta_s, Lmax, l);
 figure;
 for i = 1:N
@@ -43,12 +33,23 @@ for i = 1:N
    hold on;
 end
 
-data = 100*randn(dsize,n);
-data(1:500,:) = data(1:500,:) + 200;
 [cl,c] = maxmin(data);
 figure;
 for i = 1:c
    pts = data(cl==i,:);
-   plot(pts(:,1), pts(:,2), '.'); 
+   plot3(pts(:,1), pts(:,2), pts(:,3), '.'); 
    hold on;
 end
+
+data = 100*randn(dsize,n);
+data(1:500,:) = data(1:500,:) + 400;
+[l,r,cl,c] = optics(data, 90, 3);
+figure;
+plot(r(l(:,4)));
+figure;
+for i = 1:c
+   pts = l(cl==i,:);
+   plot3(pts(:,1), pts(:,2), pts(:,3), '.'); 
+   hold on;
+end
+plot3(l(cl==-1,1),l(cl==-1,2),l(cl==-1,3),'o');

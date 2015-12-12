@@ -32,13 +32,23 @@ Lmax = 1;
 teta_s = 1;
 dsize = 1000;
 n = 3;
-points = 100*randn(dsize,n);
-points(1:333,:) = points(1:333,:) + 300;
-points(334:666,:) = points(334:666,:) - 300;
-[cl, N] = isodata(points, K, teta_n, teta_c, teta_s, Lmax, l);
+data = 100*randn(dsize,n);
+data(1:333,:) = data(1:333,:) + 300;
+data(334:666,:) = data(334:666,:) - 300;
+[cl, N] = isodata(data, K, teta_n, teta_c, teta_s, Lmax, l);
 figure;
 for i = 1:N
-   pts = points(cl==i,:);
+   pts = data(cl==i,:);
    plot3(pts(:,1), pts(:,2), pts(:,3), '.'); 
+   hold on;
+end
+
+data = 100*randn(dsize,n);
+data(1:500,:) = data(1:500,:) + 200;
+[cl,c] = maxmin(data);
+figure;
+for i = 1:c
+   pts = data(cl==i,:);
+   plot(pts(:,1), pts(:,2), '.'); 
    hold on;
 end

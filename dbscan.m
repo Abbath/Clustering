@@ -1,14 +1,14 @@
 function [group, c] = dbscan(data, L_min, kol) 
 tic;
-dsize = size(data,1);
+dsize = size(data, 1);
 L = zeros(dsize, dsize);
-rez = zeros(dsize,1);
-marked = zeros(dsize,1);
-group = zeros(dsize,1);
+rez = zeros(dsize, 1);
+marked = zeros(dsize, 1);
+group = zeros(dsize, 1);
 for i = 1:dsize
     for j = 1:dsize
-        L(i,j) = sqrt(sum((data(i,:)-data(j,:)).^2)) <= L_min;
-        if L(i,j)
+        L(i, j) = sqrt(sum((data(i, :)-data(j, :)) .^ 2)) <= L_min;
+        if L(i, j)
             rez(i) = rez(i) + 1;
         end
     end
@@ -32,7 +32,7 @@ for i = 1:dsize
                        else
                            marked(j) = 1;
                            for k = 1:dsize
-                               if L(j,k) > 0
+                               if L(j, k) > 0
                                    group(k) = c; 
                                end
                            end

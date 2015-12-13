@@ -1,10 +1,5 @@
 function [ id ] = getid( p, data )
-id = -1;
-for i = 1:size(data,1)
-    if prod(data(i,:)==p)
-        id = i;
-        break;
-    end
-end
+comp=find(~any(bsxfun(@minus,data,p),2));
+id = comp(1);
 end
 

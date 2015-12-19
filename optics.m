@@ -1,4 +1,5 @@
 function [ list, rdist, group, gid ] = optics( data, eps, minPts, minSize )
+tic;
 [dsize, n] = size(data);
 rdist = -1 * ones(dsize, 1);
 proc = zeros(dsize, 1);
@@ -41,5 +42,6 @@ for i = 2:size(tmp, 1)
         counter = 0;
     end
 end
+toc;
 end
 

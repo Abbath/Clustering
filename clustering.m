@@ -1,6 +1,7 @@
 n = 3;
+%Input data 1000 3-dimentional samples
 dsize = 1000;
-data = 100*randn(dsize, n);
+data = 100*rand(dsize, n);
 data(1:500,:) = data(1:500, :) + 200;
 data(500:600,:) = data(500:600, :) + 300;
 [group, c] = dbscan(data, 40, 3);
@@ -25,7 +26,7 @@ plotres(data, cl, c, n, 'maxmin');
 
 data = 100*randn(dsize, n);
 data(1:500,:) = data(1:500, :) + 400;
-[l, r, cl, c] = optics(data, 90, 3, 3);
+[l, r, cl, c] = optics(data, 90, 3, 25);
 figure;
 plot(r(l(:, 4)));
 plotres(l, cl, c, n, 'optics');

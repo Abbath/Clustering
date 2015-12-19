@@ -1,5 +1,4 @@
 function [ seeds, rdist ] = update( N, p, ids, proc, seeds, rdist, minPts )
-tic;
 coredist = coreDistance(p, N, minPts);
 for i = 1:size(N, 1)
     if ~proc(ids(i))
@@ -15,6 +14,5 @@ for i = 1:size(N, 1)
         end
     end
 end
-toc;
 end
 
